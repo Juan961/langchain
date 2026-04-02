@@ -10,6 +10,7 @@ This project implements an agent with LangChain tools using a modular structure 
 4. The agent selects and executes the appropriate tool based on the prompt:
    - `calculator`
    - `current_time`
+  - `flight_prices`
 5. `AgentExecutor` returns the final `output` to the caller.
 
 ## Module responsibilities
@@ -17,12 +18,14 @@ This project implements an agent with LangChain tools using a modular structure 
 - `src/config/env.ts`
   - Loads `env.local`.
   - Validates environment variables with `zod`.
+  - Supports optional flight provider configuration for the `flight_prices` tool.
 - `src/agent/model.ts`
   - Creates the `ChatOpenAI` model configured against OpenRouter.
 - `src/agent/prompt.ts`
   - Defines the agent behavior and tool-usage instructions.
 - `src/agent/tools/*`
   - Implements reusable domain tools.
+  - `flight_prices` accepts route/date params and returns fare text in Spanish.
 - `src/agent/createAgent.ts`
   - Assembles model, tools, and prompt into the executable agent.
 - `src/agent/runAgent.ts`
@@ -40,3 +43,4 @@ This project implements an agent with LangChain tools using a modular structure 
 - Replace `Function(...)` in `calculator` with a safe parser/evaluator for production.
 - Add new tools under `src/agent/tools` and register them in `createAgent.ts`.
 - Add structured logging when deeper runtime diagnostics are required.
+- For external flight providers, keep graceful fallback behavior to deterministic local estimation to preserve testability and local development.

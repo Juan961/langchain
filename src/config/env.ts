@@ -10,6 +10,9 @@ const envSchema = z.object({
   OPENROUTER_TEMPERATURE: z.coerce.number().default(0),
   OPENROUTER_HTTP_REFERER: z.string().url().optional(),
   OPENROUTER_APP_TITLE: z.string().min(1).optional(),
+  FLIGHT_API_BASE_URL: z.string().url().optional(),
+  FLIGHT_API_KEY: z.string().min(1).optional(),
+  FLIGHT_API_TIMEOUT_MS: z.coerce.number().int().positive().optional(),
 });
 
 export type AppEnv = z.infer<typeof envSchema>;
